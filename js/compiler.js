@@ -143,6 +143,9 @@ function generateExtraMembers(state) {
 			if (o.spritematrix.length===0) {
 				o.spritematrix = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
 			} else {
+				if ( o.spritematrix.length!==5 || o.spritematrix[0].length!==5 || o.spritematrix[1].length!==5 || o.spritematrix[2].length!==5 || o.spritematrix[3].length!==5 || o.spritematrix[4].length!==5 ){
+					logWarning("Sprite graphics must be 5 wide and 5 high exactly.",o.lineNumber);
+				}
 				o.spritematrix = generateSpriteMatrix(o.spritematrix);
 			}
 		}
@@ -358,12 +361,12 @@ function generateExtraMembers(state) {
 			backgroundid = o.id;
 			backgroundlayer = o.layer;
 		}else if ('background' in state.aggregatesDict) {
-			var o=state.idDict[0];
+			var o=state.objects[state.idDict[0]];
 			backgroundid=o.id;
 			backgroundlayer=o.layer;
 			logError("background cannot be an aggregate (declared with 'and'), it has to be a simple type, or property (declared in terms of others using 'or').");
 		} else {
-			var o=state.idDict[0];
+			var o=state.objects[state.idDict[0]];
 			backgroundid=o.id;
 			backgroundlayer=o.layer;
 			logError("you have to define something to be the background");
